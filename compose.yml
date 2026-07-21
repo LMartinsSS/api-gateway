@@ -1,0 +1,13 @@
+services:
+  gateway:
+    build: .
+    ports:
+      - "3001:3000"
+    environment:
+      JWT_SECRET: "local-docker-secret-change-me-123456789"
+      ROUTES: '[{"prefix":"/api/httpbin","upstream":"https://httpbin.org","auth":false}]'
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health/live"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
